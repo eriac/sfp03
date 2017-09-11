@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="one_arm">
+
+<material name="gray">
+  <color rgba="0.8 0.8 0.8 1"/>
+</material>
+<material name="gray-red">
+  <color rgba="1.0 0.8 0.8 2.0"/>
+</material>
+<material name="gray-green">
+  <color rgba="0.8 1.0 0.8 2.0"/>
+</material>
+<material name="gray-blue">
+  <color rgba="0.8 0.8 1.0 2.0"/>
+</material>
+<material name="green">
+  <color rgba="0.0 1.0 0.0 2.0"/>
+</material>
+
+<link name="world">
+</link>
+<link name="base_link">
+</link>
+
+<link name="link1">
+  <visual>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.15" length="0.10" />
+    </geometry>
+    <material name="gray-blue">
+    </material>
+  </visual>
+</link>
+<link name="link2">
+  <visual>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <box size="0.1 0.1 0.1" />
+    </geometry>
+    <material name="gray-green">
+    </material>
+  </visual>
+</link>
+<link name="ctrl_link">
+  <visual>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <mesh filename="package://sfp03/urdf/ViveController.stl"/>
+    </geometry>
+    <material name="gray-green">
+    </material>
+  </visual>
+</link>
+<link name="goal_link">
+  <visual>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <sphere radius="0.04" />
+    </geometry>
+    <material name="green">
+    </material>
+  </visual>
+</link>
+<link name="pointer_link">
+</link>
+
+<joint name="robot_joint" type="planar">
+  <parent link="world"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+</joint>
+<joint name="joint1" type="fixed">
+  <parent link="base_link"/>
+  <child link="link1"/>
+  <origin xyz="0 0 0.05" rpy="0 0 0"/>
+</joint>
+<joint name="joint2" type="fixed">
+  <parent link="base_link"/>
+  <child link="link2"/>
+  <origin xyz="0.08 0 0.1" rpy="0 0 0"/>
+</joint>
+<joint name="ctrl_joint" type="floating">
+  <parent link="world"/>
+  <child link="ctrl_link"/>
+  <origin xyz="0 0 1.0" rpy="0 0 0"/>
+  <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+</joint>
+<joint name="pointer_joint" type="fixed">
+  <parent link="ctrl_link"/>
+  <child link="pointer_link"/>
+  <origin xyz="0.02 0 0.03" rpy="0 0.593 0"/>
+  <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+</joint>
+
+<joint name="goal_joint" type="floating">
+  <parent link="world"/>
+  <child link="goal_link"/>
+  <origin xyz="0 0 1.0" rpy="0 0 0"/>
+  <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
+</joint>
+
+</robot>

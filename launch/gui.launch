@@ -1,0 +1,20 @@
+<launch>
+  <arg name="model" default="$(find sfp03)/urdf/robot.urdf"/>
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sfp03)/config/SETTING.rviz" required="true" />
+
+  <node name="joy_node" pkg="joy" type="joy_node" />
+  <node name="joy_driver" pkg="sfp03" type="joy_driver" output="screen"/>
+
+<!--  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+-->
+</launch>
+

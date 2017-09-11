@@ -13,12 +13,12 @@
   <node name="twist_commander" pkg="sfp03" type="twist_commander"/>
 <!--
   <node name="ctrl_driver" pkg="sfp03" type="ctrl_driver"/>
+  <node name="robot_sim" pkg="sfp03" type="robot_sim" output="screen"/>
 -->
   <node name="driver_udp" pkg="sfp03" type="driver_udp"/>
   <node name="goal_driver" pkg="sfp03" type="goal_driver"/>
 
   <node name="robot_driver" pkg="sfp03" type="robot_driver" output="screen"/>
-  <node name="robot_sim" pkg="sfp03" type="robot_sim" output="screen"/>
 
 <!--
   <node name="test1" pkg="sfp03" type="test1"/>

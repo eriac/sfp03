@@ -37,22 +37,24 @@ std::vector<std::string> split(const std::string &str, char sep){
     }
     return v;
 }
-
-void set_ctrl(float *position, float *direction){
-	static tf::TransformBroadcaster br;
-	tf::Transform transform;
-	transform.setOrigin( tf::Vector3(position[0], position[1], position[2]) );
-	tf::Quaternion q;
-	q.setRPY(direction[2], direction[1], direction[0]);
-	transform.setRotation(q);
-	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "ctrl_link"));	
-}
-void set_ctrl2(float *pos, float *dir){
+void set_ctrl(float *pos, float *dir){
 	static tf::TransformBroadcaster br;
 	tf::Transform transform;
 	transform.setOrigin(  tf::Vector3(   pos[0], pos[1], pos[2]) );
 	transform.setRotation(tf::Quaternion(dir[0], dir[1], dir[2], dir[3]));
 	br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "ctrl_link"));	
+}
+void set_sense(float *pos, float *dir){
+	static tf::TransformBroadcaster br;
+	tf::Transform transform;
+	transform.setOrigin(  tf::Vector3(   pos[0], pos[1], pos[2]) );
+	transform.setRotation(tf::Quaternion(dir[0], dir[1], dir[2], dir[3]));
+	
+	tf::Transform transform2;
+	transform2.setOrigin(  tf::Vector3(   -0.03, 0.04, -0.19));
+	transform2.setRotation(tf::Quaternion(dir[0], dir[1], dir[2], dir[3]));
+	
+	br.sendTransform(tf::StampedTransform(transform*transform2, ros::Time::now(), "world", "base_link"));	
 }
 
 
@@ -123,10 +125,12 @@ int main(int argc, char **argv)
 					printf("name:%s, type:%s\n",name.c_str(),type.c_str());
 					printf("px%f, py%f,pz%f\n",linear[0],linear[1],linear[2]);
 					printf("rx%f, ry%f,rz%f,rw%f\n",angular[0],angular[1],angular[2],angular[3]);
-					set_ctrl2(linear,angular);
+					if(name=="POINTER")set_ctrl(linear,angular);
+					else if(name=="SENSOR")set_sense(linear,angular);
 				}
 			}
 		}
+		//sense_link to base_link
 	} 
  	return 0;
 }

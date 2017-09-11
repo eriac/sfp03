@@ -79,24 +79,28 @@ int main(int argc, char **argv)
 		source_pose.header.frame_id="pointer_link";
 		source_pose.pose.orientation.w=1.0;
 		geometry_msgs::PoseStamped target_pose;
-		tflistener.waitForTransform("world", "pointer_link", ros::Time(0), ros::Duration(1.0));
-		tflistener.transformPose("world",ros::Time(0),source_pose,"pointer_link",target_pose);
+		try{
+			tflistener.waitForTransform("world", "pointer_link", ros::Time(0), ros::Duration(1.0));
+			tflistener.transformPose("world",ros::Time(0),source_pose,"pointer_link",target_pose);
 		
-		//printf("P X:%f, Y:%f, Z:%f\n",target_pose.pose.position.x,target_pose.pose.position.y,target_pose.pose.position.z);
-		double roll,pitch,yaw;
-		GetRPY(target_pose.pose.orientation,roll,pitch,yaw);
-		//printf("O R:%f, P:%f, Y:%f\n",roll,pitch,yaw);
+			//printf("P X:%f, Y:%f, Z:%f\n",target_pose.pose.position.x,target_pose.pose.position.y,target_pose.pose.position.z);
+			double roll,pitch,yaw;
+			GetRPY(target_pose.pose.orientation,roll,pitch,yaw);
+			//printf("O R:%f, P:%f, Y:%f\n",roll,pitch,yaw);
 		
-		if(pitch>0.2){
-			float l1=target_pose.pose.position.z/tan(pitch);
-			float x =target_pose.pose.position.x+l1*cos(yaw);
-			float y =target_pose.pose.position.y+l1*sin(yaw);
-			set_goal(x,y,0);
-			float source[3]={target_pose.pose.position.x,target_pose.pose.position.y,target_pose.pose.position.z};
-			float target[3]={x,y,0};
-			draw_line(source,target);
+			if(pitch>0.2){
+				float l1=target_pose.pose.position.z/tan(pitch);
+				float x =target_pose.pose.position.x+l1*cos(yaw);
+				float y =target_pose.pose.position.y+l1*sin(yaw);
+				set_goal(x,y,0);
+				float source[3]={target_pose.pose.position.x,target_pose.pose.position.y,target_pose.pose.position.z};
+				float target[3]={x,y,0};
+				draw_line(source,target);
+			}
 		}
-
+		catch(...){
+			printf("error\n");
+		}
 		ros::spinOnce();
 		loop_rate.sleep();
 	} 

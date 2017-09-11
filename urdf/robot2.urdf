@@ -44,7 +44,7 @@
 </link>
 <link name="ctrl_link">
   <visual>
-  <origin rpy="0 0 0" xyz="0 0 0"/>
+  <origin rpy="3.1415 0 0" xyz="0 0 0"/>
     <geometry>
       <mesh filename="package://sfp03/urdf/ViveController.stl"/>
     </geometry>
@@ -91,7 +91,7 @@
 <joint name="pointer_joint" type="fixed">
   <parent link="ctrl_link"/>
   <child link="pointer_link"/>
-  <origin xyz="0.02 0 0.03" rpy="0 0.593 0"/>
+  <origin xyz="0.02 0 -0.03" rpy="0 -0.593 0"/>
   <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
 </joint>
 

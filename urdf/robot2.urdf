@@ -26,7 +26,7 @@
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
-      <cylinder radius="0.15" length="0.10" />
+      <cylinder radius="0.11" length="0.1" />
     </geometry>
     <material name="gray-blue">
     </material>
@@ -36,7 +36,17 @@
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
-      <box size="0.1 0.1 0.1" />
+      <box size="0.06 0.1 0.04" />
+    </geometry>
+    <material name="gray-green">
+    </material>
+  </visual>
+</link>
+<link name="sense_link">
+  <visual>
+  <origin rpy="3.1415 0 0" xyz="0 0 0"/>
+    <geometry>
+      <mesh filename="package://sfp03/urdf/ViveController.stl"/>
     </geometry>
     <material name="gray-green">
     </material>
@@ -65,7 +75,7 @@
 <link name="pointer_link">
 </link>
 
-<joint name="robot_joint" type="planar">
+<joint name="robot_joint" type="floating">
   <parent link="world"/>
   <child link="base_link"/>
   <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -80,7 +90,12 @@
 <joint name="joint2" type="fixed">
   <parent link="base_link"/>
   <child link="link2"/>
-  <origin xyz="0.08 0 0.1" rpy="0 0 0"/>
+  <origin xyz="0.06 0 0.1" rpy="0 0 0"/>
+</joint>
+<joint name="sense_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="sense_link"/>
+  <origin xyz="0.03 -0.04 0.190" rpy="0 0 0"/>
 </joint>
 <joint name="ctrl_joint" type="floating">
   <parent link="world"/>
@@ -94,7 +109,6 @@
   <origin xyz="0.02 0 -0.03" rpy="0 -0.593 0"/>
   <limit effort="30" velocity="1.0" lower="-2.0" upper="2.0" />
 </joint>
-
 <joint name="goal_joint" type="floating">
   <parent link="world"/>
   <child link="goal_link"/>
